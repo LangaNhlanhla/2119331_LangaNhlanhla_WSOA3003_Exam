@@ -10,24 +10,28 @@ public class GoblinEnemy : MonoBehaviour
     [Header("Unity Handles")]
     public Transform target;
     public Transform spawnPoint, Holder;
-    public GameObject bullet;
+    public Transform[] points;
+    public GameObject bullet, fx;
     public NavMeshAgent agent;
     public Image healthBar;
     public GameObject holder;
 
     [Header("Floats")]
     public float Range = 10f;
-    public float rateOfFire = 1f;
     public float health = 100;
+    public float damage = 10;
+    public float countDown = 3f;
     float min = 0;
     float max = 100;
     float currentHealth;
-    float countDown = 0f;
     float speed = 5f;
+
+    [Header("Integers")]
+    public int worth = 50;
 
     [Header("Booleans")]
     public bool isDead = false;
-
+    
     [Header("Generic Elements")]
     public string enemyTag;
 
@@ -36,30 +40,21 @@ public class GoblinEnemy : MonoBehaviour
         Holder = FindObjectOfType<Transform>().Find("Holder");
         currentHealth = health;
         healthBar.fillAmount = currentHealth / health;
+        agent.speed = speed;
 
         InvokeRepeating("NewTarget", 0.2f, 0.7f);
     }
 
     void Update()
     {
-        if (health <= 0)
-        {
-            holder.SetActive(false);
-            Destroy(gameObject, 1.1f);
-        }
+        Death();
 
         health = Mathf.Clamp(health, min, max);
-        healthBar.fillAmount = currentHealth / health;
+        healthBar.fillAmount = health / currentHealth;
 
         if (target == null)
             return;
 
-        if (countDown <= 0)
-        {
-            Spawn();
-            countDown = 1f / rateOfFire;
-        }
-        countDown -= Time.deltaTime;
     }
     void NewTarget()
     {
@@ -77,28 +72,83 @@ public class GoblinEnemy : MonoBehaviour
             }
         }
 
+        if(nearBuilding.GetComponent<Buildings>().isDestroyed)
+            nearBuilding = null;
+
+        int index = Random.Range(0, points.Length);
+
         if (nearBuilding != null && nearestBuilding <= Range)
         {
             target = nearBuilding.transform;
-            agent.SetDestination(target.position);
+            if (nearBuilding.GetComponent<Buildings>().isDestroyed == false)
+            {
+                Attack(target.position);
+                StartCoroutine(Spawn());
+            }
         }
         else
         {
-         
             target = null;
-            agent.SetDestination(Vector3.zero);
+            Attack(points[index].position);
         }
     }
    
-    void Spawn()
+    void Attack(Vector3 tar)
+	{
+        
+        if(tar != null)
+		{
+            agent.SetDestination(tar);
+            agent.speed = speed;
+
+            RaycastHit hit;
+            transform.LookAt(tar);
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 10))
+            {
+                if (hit.transform.tag == "building" || hit.transform.tag == "Player")
+                {
+                    tar = hit.point;
+                    tar.x += Random.Range(-9, 3f);
+                    tar.z += Random.Range(-13, 5f);
+                }
+            }
+        }
+    }
+    IEnumerator Spawn()
     {
         GameObject obj = Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
-        obj.transform.SetParent(Holder);
+            obj.transform.SetParent(Holder);
 
-        TowerBullet bull = obj.GetComponent<TowerBullet>();
+            TowerBullet bull = obj.GetComponent<TowerBullet>();
 
-        if (bull != null)
-            bull.Set(target);
+            if (bull != null && target != null)
+                bull.Set(target);
+
+        yield return new WaitForSeconds(countDown);
+    }
+    public void goblinAttacked(int damage)
+    {
+        if (health > 0)
+            health -= damage;
+        else
+            health = 0;
+    }
+
+    void Death()
+	{
+        if (health <= 0)
+        {
+            PlayerStats.Gold += worth;
+
+
+            holder.SetActive(false);
+            GameObject eff = Instantiate(fx, transform.position, Quaternion.identity);
+            Destroy(eff, 2f);
+
+            WaveSpawner.goblinsAlive--;
+
+            Destroy(gameObject);
+        }
     }
     private void OnDrawGizmosSelected()
     {

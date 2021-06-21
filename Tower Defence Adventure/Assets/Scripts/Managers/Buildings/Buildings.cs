@@ -36,7 +36,7 @@ public class Buildings : MonoBehaviour
 
     void Start()
     {
-        currentHealth = health;
+        max = health;
         building.gameObject.SetActive(true);
         replacedBuilding.gameObject.SetActive(false);
 
@@ -58,7 +58,7 @@ public class Buildings : MonoBehaviour
 		}
 
         //healthBar.fillAmount = health / 100;
-        healthBar.fillAmount = currentHealth / health;
+        healthBar.fillAmount = health / max;
         health = Mathf.Clamp(health, min, max);
 
         CheckForDestruction();
@@ -109,11 +109,11 @@ public class Buildings : MonoBehaviour
             goblin.Add(gob);
 	}
 
-    public void Attacked()
+    public void Attacked(int Damage)
 	{
         if (health > 0)
         {
-            health -= damage();
+            health -= Damage;
         }
         else
             health = 0;

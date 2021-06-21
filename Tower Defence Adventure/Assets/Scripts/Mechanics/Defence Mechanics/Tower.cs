@@ -13,6 +13,7 @@ public class Tower : MonoBehaviour
     [Header("Floats")]
     public float Range = 10f;
     public float rateOfFire = 1f;
+    public float Health = 100f, currenthealth;
     float countDown = 0f;
     float speed = 5f;
 
@@ -22,6 +23,7 @@ public class Tower : MonoBehaviour
     void Start()
     {
         InvokeRepeating("NewTarget", 0.2f, 0.7f);
+        currenthealth = Health;
     }
 
     void Update()

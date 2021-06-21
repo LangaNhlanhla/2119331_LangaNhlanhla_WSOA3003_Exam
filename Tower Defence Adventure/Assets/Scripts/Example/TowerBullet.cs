@@ -15,6 +15,10 @@ public class TowerBullet : MonoBehaviour
     public float bulletSpeed = 8f;
     public float bulletDuration;
 
+    [Header("Integers")]
+    public int DamageOutput = 10;
+    public int BuildingDamageOutput = 5;
+
 
     void Start()
     {
@@ -41,6 +45,7 @@ public class TowerBullet : MonoBehaviour
 		}
 
         transform.Translate(dir.normalized * dis, Space.World);
+       
     }
 
     public void Set(Transform tar)
@@ -53,11 +58,26 @@ public class TowerBullet : MonoBehaviour
         Debug.Log("Hit");
         //Instantiate(shrapnelEffect,transform.position, transform.rotation);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        Instantiate(shrapnelEffect, transform.position, transform.rotation);
+
+        if (other.transform.tag == "Goblin")
+        {
+            other.transform.GetComponent<GoblinEnemy>().goblinAttacked(DamageOutput);
+            Destroy(this.gameObject);
+        }
+    }
     // Instantiates shrapnel and destroys the bullet.
     private void OnCollisionEnter(Collision collision)
     {
-        //Instantiate(shrapnelEffect,transform.position, transform.rotation);
-        Destroy(gameObject);
+        Instantiate(shrapnelEffect,transform.position, transform.rotation);
+
+        if (collision.transform.tag == "building")
+        {
+            Debug.Log("Colliding");
+            collision.transform.GetComponentInParent<Buildings>().Attacked(BuildingDamageOutput);
+        }
     }
 }
 

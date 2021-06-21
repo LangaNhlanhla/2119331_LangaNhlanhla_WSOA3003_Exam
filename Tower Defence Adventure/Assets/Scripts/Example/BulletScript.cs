@@ -31,7 +31,7 @@ public class BulletScript : MonoBehaviour
     // Instantiates shrapnel and destroys the bullet.
     private void OnCollisionEnter(Collision collision)
     {
-      //  Instantiate(shrapnelEffect,transform.position, transform.rotation);
+      Instantiate(shrapnelEffect,transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
