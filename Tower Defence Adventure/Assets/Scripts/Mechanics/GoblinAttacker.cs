@@ -44,9 +44,12 @@ public class GoblinAttacker : MonoBehaviour
         if(health <= 0)
 		{
             holder.SetActive(false);
+            Destroy(gameObject, 1.1f);
 		}
 
         health = Mathf.Clamp(health, min, max);
+        healthBar.fillAmount = health / 100;
+
         CheckBuildings();
         NotifyGoblin();
     }

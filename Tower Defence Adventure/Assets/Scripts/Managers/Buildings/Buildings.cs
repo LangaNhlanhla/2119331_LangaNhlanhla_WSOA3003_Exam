@@ -20,6 +20,7 @@ public class Buildings : MonoBehaviour
 
     [Header("Floats")]
     public float health = 100;
+    public float currentHealth;
     private float min = 0;
     private float max = 100;
 
@@ -35,10 +36,11 @@ public class Buildings : MonoBehaviour
 
     void Start()
     {
+        currentHealth = health;
         building.gameObject.SetActive(true);
         replacedBuilding.gameObject.SetActive(false);
 
-        healthBar.fillAmount = health / 100;
+        healthBar.fillAmount = currentHealth / health;
         //healthHolder.SetActive(false);
         
     }
@@ -55,7 +57,8 @@ public class Buildings : MonoBehaviour
             }
 		}
 
-        healthBar.fillAmount = health / 100;
+        //healthBar.fillAmount = health / 100;
+        healthBar.fillAmount = currentHealth / health;
         health = Mathf.Clamp(health, min, max);
 
         CheckForDestruction();

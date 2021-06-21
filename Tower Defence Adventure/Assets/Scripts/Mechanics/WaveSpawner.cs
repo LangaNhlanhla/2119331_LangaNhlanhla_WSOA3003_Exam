@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
+    [Header("Static Values")]
+    public static int goblinsAlive = 0;
+
     [Header("Unity Handles")]
     public Transform enemyPrefab;
     public Transform spawnArea;
@@ -36,6 +39,7 @@ public class WaveSpawner : MonoBehaviour
     void SpawnEnemy()
 	{
         Instantiate(enemyPrefab, spawnArea.position, spawnArea.rotation);
+        goblinsAlive++;
 	}
     IEnumerator SpawnWave()
 	{

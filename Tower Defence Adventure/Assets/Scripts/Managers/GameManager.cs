@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
 	[Header("Unity Handles")]
 	public GameObject fx;
+	//public GameObject shop;
 	public Image healthBar;
 
     [Header("Blueprint Items")]
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 
 	[Header("Booleans")]
 	public bool isGameOver = false;
+	public bool shopOpen = false;
 
 	private void Awake()
 	{
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
 		villageHealth = Mathf.Clamp(villageHealth, min, max);
 
 		healthBar.fillAmount = villageHealth / 100;
+
 	}
 	public void SelectHealth(GameBlueprint health, int amount)
 	{
@@ -62,6 +65,18 @@ public class GameManager : MonoBehaviour
 	public void SetAmount(int amount)
 	{
 		Debug.Log(amount);
+	}
+
+	public void OpenShop(GameObject shop)
+	{
+		shop.SetActive(true);
+		shopOpen = true;
+	}
+
+	public void CloseShop(GameObject shop)
+	{
+		shop.SetActive(false);
+		shopOpen = false;
 	}
 }
 

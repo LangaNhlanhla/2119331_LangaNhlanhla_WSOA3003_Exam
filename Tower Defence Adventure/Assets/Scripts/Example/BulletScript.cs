@@ -5,39 +5,35 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
 
-    ////////// PUBLIC FIELDS //////////
+    [Header("Unity Handles")]
     public GameObject shrapnelEffect; // Particle effect that simulates shrapnel
-    float bulletSpeed;
-    float bulletDuration;
-
-    ////////// PRIVATE FIELDS //////////
-    GameObject player;
-    PlayerController playerController;
     Rigidbody rb;
+
+    [Header("Floats")]
+    public float bulletSpeed;
+    public float bulletDuration;
+
  
     void Start()
     {
-        ////////// INITIALIZATIONS //////////
         rb = GetComponent<Rigidbody>();
-
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<PlayerController>();
-        bulletSpeed = playerController.bulletSpeed;
-        bulletDuration = playerController.bulletDuration;
 
         Destroy(gameObject, bulletDuration);
     }
 
     void FixedUpdate()
     {
-        // Moves the bullet forward.
-        rb.MovePosition(transform.position + (transform.forward * bulletSpeed));
+
+        rb.MovePosition(transform.position + (transform.up * bulletSpeed));
     }
+
 
     // Instantiates shrapnel and destroys the bullet.
     private void OnCollisionEnter(Collision collision)
     {
-        Instantiate(shrapnelEffect,transform.position, transform.rotation);
+      //  Instantiate(shrapnelEffect,transform.position, transform.rotation);
         Destroy(gameObject);
     }
+
+
 }

@@ -10,7 +10,9 @@ public class PlayerMovement : MonoBehaviour
 	CharacterController controller;
 
     [Header("Unity Handles")]
-    public Rigidbody rb;
+	public Transform spawnPoint;
+	public GameObject bullet, sword, holdBullets;
+	Camera main;
 	Vector2 horizontalMovement;
 
 	[Header("Floats")]
@@ -20,11 +22,17 @@ public class PlayerMovement : MonoBehaviour
 	{
         inputActions = new PlayerInputs();
 		controller = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
+		main = Camera.main;
 
 		inputActions.Movement.Move.performed += ctx => horizontalMovement = ctx.ReadValue<Vector2>();
 	}
 
+	void Start()
+	{
+		inputActions.Combat.ShootRMB.performed += _ => Shoot();
+	}
+
+	#region Enable/Disable
 	private void OnEnable()
 	{
         inputActions.Enable();
@@ -34,12 +42,40 @@ public class PlayerMovement : MonoBehaviour
 	{
 		inputActions.Disable();
 	}
-
+#endregion
 	void Update()
     {
 		Vector3 velocity = (Vector3.right * horizontalMovement.x + Vector3.forward * horizontalMovement.y) * speed;
 		controller.Move(velocity * Time.deltaTime);
-    }
+
+		Vector2 mouseScreenPos = inputActions.Movement.Mouse.ReadValue<Vector2>();
+
+		Ray ray = main.ScreenPointToRay(mouseScreenPos);
+		Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+		float rayDistance;
+
+		if (groundPlane.Raycast(ray, out rayDistance))
+		{
+			Vector3 point = ray.GetPoint(rayDistance);
+			Debug.DrawLine(ray.origin, point, Color.red);
+			transform.LookAt(point);
+		}
+	}
+
+	void Shoot()
+	{
+		Vector2 mousePos = inputActions.Movement.Mouse.ReadValue<Vector2>();
+		mousePos = main.ScreenToWorldPoint(mousePos);
+
+		if (PlayerStats.instance.hasBullets)
+		{
+			GameObject bull = Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
+			bull.transform.SetParent(holdBullets.transform);
+			PlayerStats.instance.bullets--;
+		}
+
+		Debug.Log("Gun has: " + PlayerStats.instance.bullets + " Bullets");
+	}
 }
 
 /*
