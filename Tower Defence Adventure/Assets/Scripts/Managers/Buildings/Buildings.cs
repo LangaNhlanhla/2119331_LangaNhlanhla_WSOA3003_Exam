@@ -21,6 +21,7 @@ public class Buildings : MonoBehaviour
     [Header("Floats")]
     public float health = 100;
     public float currentHealth;
+    public float damageOut;
     private float min = 0;
     private float max = 100;
 
@@ -34,7 +35,15 @@ public class Buildings : MonoBehaviour
         Wall, Gunsmith, GeneralStore, Blacksmith, Home  
 	};
 
-    void Start()
+	private void Awake()
+	{
+        if (buildingName == BuildingName.Wall)
+        {
+            GameManager.wallIndex++;
+        }
+
+    }
+	void Start()
     {
         max = health;
         building.gameObject.SetActive(true);
@@ -42,17 +51,19 @@ public class Buildings : MonoBehaviour
 
         healthBar.fillAmount = currentHealth / health;
         //healthHolder.SetActive(false);
-        
+
     }
 
     void Update()
     {
-		if (health <= 0)
+        damageOut = GameManager.instance.dmg;
+
+        if (health <= 0)
 		{
             isDestroyed = true;
             if (!hasBeenCalled)
             {
-                GameManager.instance.villageHealth -= 5;
+                GameManager.instance.villageHealth -= damageOut;
                 hasBeenCalled = true;
             }
 		}

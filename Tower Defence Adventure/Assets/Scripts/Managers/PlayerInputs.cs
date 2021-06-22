@@ -110,7 +110,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Interact"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""ccfd12f6-bc2f-4157-81e2-9fcc2da94072"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -118,7 +118,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Escape"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""a35dabee-720e-47db-bdfe-a8c04b912521"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

@@ -21,8 +21,12 @@ public class GameManager : MonoBehaviour
 	public GameBlueprint baseItem;
 	public GameBlueprint HealthItem;
 
-	[Header("Integers")]
+	[Header("Floats")]
 	public float villageHealth = 100;
+	public static float wallIndex;
+	public float dmg;
+
+	[Header("Integers")]
 	int min = 0, max = 100;
 
 	[Header("Booleans")]
@@ -52,8 +56,14 @@ public class GameManager : MonoBehaviour
 		instance = this;
 
 		inputActions = new PlayerInputs();
+
 	}
 
+	private void Start()
+	{
+
+		dmg = villageHealth / wallIndex;
+	}
 
 	private void Update()
 	{
@@ -70,6 +80,10 @@ public class GameManager : MonoBehaviour
 		healthBar.fillAmount = villageHealth / 100;
 	}
 
+	private void FixedUpdate()
+	{
+		Debug.Log("Walls: " + wallIndex);
+	}
 	public void PauseGame()
 	{
 		anim.Open();

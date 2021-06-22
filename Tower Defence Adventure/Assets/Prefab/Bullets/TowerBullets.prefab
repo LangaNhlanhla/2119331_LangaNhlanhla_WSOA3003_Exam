@@ -130,6 +130,6 @@ MonoBehaviour:
   target: {fileID: 0}
   shrapnelEffect: {fileID: 2144178584834061810, guid: 4126472a089564a4fb384ce4a34f7ef2, type: 3}
   bulletSpeed: 20
-  bulletDuration: 10
+  bulletDuration: 2.5
   DamageOutput: 5
   BuildingDamageOutput: 5

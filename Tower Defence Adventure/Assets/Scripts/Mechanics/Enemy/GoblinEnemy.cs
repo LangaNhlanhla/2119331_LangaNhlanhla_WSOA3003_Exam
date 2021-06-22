@@ -28,6 +28,7 @@ public class GoblinEnemy : MonoBehaviour
 
     [Header("Integers")]
     public int worth = 50;
+    int index;
 
     [Header("Booleans")]
     public bool isDead = false;
@@ -37,11 +38,11 @@ public class GoblinEnemy : MonoBehaviour
 
     void Start()
     {
-        Holder = FindObjectOfType<Transform>().Find("Holder");
         currentHealth = health;
         healthBar.fillAmount = currentHealth / health;
         agent.speed = speed;
 
+        index = Random.Range(0, points.Length);
         InvokeRepeating("NewTarget", 0.2f, 0.7f);
     }
 
@@ -69,13 +70,14 @@ public class GoblinEnemy : MonoBehaviour
             {
                 nearestBuilding = dis;
                 nearBuilding = building;
+                nearBuilding.gameObject.GetComponent<Buildings>();
             }
         }
 
-        if(nearBuilding.GetComponent<Buildings>().isDestroyed)
-            nearBuilding = null;
+        if(nearBuilding !=null && nearBuilding.GetComponent<Buildings>().isDestroyed == true)
+           nearBuilding = null;
 
-        int index = Random.Range(0, points.Length);
+        
 
         if (nearBuilding != null && nearestBuilding <= Range)
         {
@@ -84,10 +86,12 @@ public class GoblinEnemy : MonoBehaviour
             {
                 Attack(target.position);
                 StartCoroutine(Spawn());
+                return;
             }
         }
         else
         {
+
             target = null;
             Attack(points[index].position);
         }
@@ -95,11 +99,12 @@ public class GoblinEnemy : MonoBehaviour
    
     void Attack(Vector3 tar)
 	{
-        
-        if(tar != null)
+
+        if (tar != null)
 		{
-            agent.SetDestination(tar);
+           agent.SetDestination(tar);
             agent.speed = speed;
+
 
             RaycastHit hit;
             transform.LookAt(tar);
