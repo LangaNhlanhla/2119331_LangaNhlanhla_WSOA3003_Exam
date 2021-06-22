@@ -11,12 +11,13 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Unity Handles")]
     public Text GoldTxt;
+    public Text AmmoTxt, HealthItemsTxt, SwordTxt, DamageTxt;
 
     [Header("Integers")]
-    public static int Gold;
     public int baseGold = 200;
-    public int healthItemsAmount;
+    public int healthItemsAmount, DamageItemsAmount, Sword = 1;
     public int bullets = 20;
+    public static int Gold;
 
     [Header("Booleans")]
     public bool hasBullets;
@@ -37,17 +38,46 @@ public class PlayerStats : MonoBehaviour
 
     void Update()
     {
-        GoldTxt.text = "Gold: " + Gold;
-        Gold =(int)Mathf.Clamp(Gold, 0f, Mathf.Infinity);
-        
-        if(bullets <= 0)
-		{
+        UpdateTexts();
+        Amounts();
+
+    }
+
+    void UpdateTexts()
+	{
+        GoldTxt.text = Gold.ToString();
+        Gold = (int)Mathf.Clamp(Gold, 0f, Mathf.Infinity);
+
+        AmmoTxt.text = bullets.ToString();
+        HealthItemsTxt.text = healthItemsAmount.ToString();
+        SwordTxt.text = Sword.ToString();
+        DamageTxt.text = DamageItemsAmount.ToString();
+
+    }
+    void Amounts()
+	{
+        if (bullets <= 0)
+        {
             bullets = 0;
             hasBullets = false;
-		}
-        else if(bullets >= 1)
+        }
+        else if (bullets >= 1)
             hasBullets = true;
 
+        if (healthItemsAmount <= 0)
+        {
+            healthItemsAmount = 0;
+        }
+
+        if (healthItemsAmount <= 0)
+        {
+            healthItemsAmount = 0;
+        }
+
+        if (DamageItemsAmount <= 0)
+        {
+            DamageItemsAmount = 0;
+        }
     }
 }
 

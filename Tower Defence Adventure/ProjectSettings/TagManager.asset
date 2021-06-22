@@ -6,6 +6,8 @@ TagManager:
   tags:
   - building
   - Goblin
+  - Entrance
+  - Exit
   layers:
   - Default
   - TransparentFX

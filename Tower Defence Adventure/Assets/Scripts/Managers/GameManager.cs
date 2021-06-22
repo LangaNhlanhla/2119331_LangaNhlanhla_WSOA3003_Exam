@@ -9,15 +9,17 @@ public class GameManager : MonoBehaviour
 	[Header("External Sources")]
 	public static GameManager instance;
 	public PlayerStats playerStats;
+	public TweenAnimations anim;
+	PlayerInputs inputActions;
 
 	[Header("Unity Handles")]
 	public GameObject fx;
 	//public GameObject shop;
 	public Image healthBar;
 
-    [Header("Blueprint Items")]
-    public GameBlueprint baseItem;
-    public GameBlueprint HealthItem;
+	[Header("Blueprint Items")]
+	public GameBlueprint baseItem;
+	public GameBlueprint HealthItem;
 
 	[Header("Integers")]
 	public float villageHealth = 100;
@@ -26,21 +28,39 @@ public class GameManager : MonoBehaviour
 	[Header("Booleans")]
 	public bool isGameOver = false;
 	public bool shopOpen = false;
+	public bool isPaused = false;
+
+	#region Enable/Disable
+	private void OnEnable()
+	{
+		inputActions.Enable();
+	}
+
+	private void OnDisable()
+	{
+		inputActions.Disable();
+	}
+	#endregion
 
 	private void Awake()
 	{
-        if(instance != null)
+		if (instance != null)
 		{
-            Debug.LogError("More than one BuildingManager");
-            return;
+			Debug.LogError("More than one BuildingManager");
+			return;
 		}
-        instance = this;
+		instance = this;
+
+		inputActions = new PlayerInputs();
 	}
 
 
 	private void Update()
 	{
-		if(villageHealth <= 0)
+		if (isPaused)
+			return;
+
+		if (villageHealth <= 0)
 		{
 			isGameOver = true;
 		}
@@ -48,7 +68,20 @@ public class GameManager : MonoBehaviour
 		villageHealth = Mathf.Clamp(villageHealth, min, max);
 
 		healthBar.fillAmount = villageHealth / 100;
+	}
 
+	public void PauseGame()
+	{
+		anim.Open();
+		isPaused = true;
+		StartCoroutine(SetTimeZero());
+	}
+
+	public void ResumeGame()
+	{
+		StartCoroutine(SetTimeOne());
+		anim.Close();
+		isPaused = false;
 	}
 	public void SelectHealth(GameBlueprint health, int amount)
 	{
@@ -77,6 +110,17 @@ public class GameManager : MonoBehaviour
 	{
 		shop.SetActive(false);
 		shopOpen = false;
+	}
+
+	IEnumerator SetTimeZero()
+	{
+		yield return new WaitForSeconds(anim.tweenTime);
+		//Time.timeScale = 0;
+	}
+	IEnumerator SetTimeOne()
+	{
+		yield return new WaitForSeconds(anim.tweenTime);
+		//Time.timeScale = 1;
 	}
 }
 

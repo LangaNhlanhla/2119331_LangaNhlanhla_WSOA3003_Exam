@@ -9,35 +9,50 @@ public class WaveSpawner : MonoBehaviour
     [Header("Static Values")]
     public static int goblinsAlive = 0;
 
+    [Header("External Sources")]
+    public TweenAnimations anim;
+
     [Header("Unity Handles")]
     public Wave[] waves;
     public Transform spawnArea;
-    public Text countdownTxt;
+    public Text countdownTxt, WaveTxt;
 
     [Header("Floats")]
     public float timebetweenWaves = 7f;
-    float countdown = 2f;
+    public float countdown = 2f;
 
     [Header("Intergers")]
     int waveIndex;
+    int indexWave;
 
-
+    [Header("Booleans")]
+    public bool hasBeenCalled = false;
     void Update()
     {
         if (goblinsAlive > 0)
             return;
+        
+        if(countdown <= 15f && !hasBeenCalled)
+		{
+            anim.gameObject.SetActive(true);
+            hasBeenCalled = true;
+		}
 
         if(countdown <= 0f)
 		{
             StartCoroutine(SpawnWave());
             countdown = timebetweenWaves;
+            hasBeenCalled = false;
             return;
 		}
         countdown -= Time.deltaTime;
 
         countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
+        indexWave = waveIndex + 1;
+        
+        countdownTxt.text = countdown.ToString("F1") + "s";
+        WaveTxt.text = "Wave " + indexWave;
 
-        countdownTxt.text = string.Format("{0:00.00}", countdown);
     }
 
     void SpawnEnemy(GameObject goblin)
