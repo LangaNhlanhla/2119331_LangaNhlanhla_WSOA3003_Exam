@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour
 		TransitionIMGOUT = GameObject.FindGameObjectWithTag("Exit");
 
 		//TransitionIMGIN.transform.position = new Vector3(-Screen.width * 2, Screen.height / 2, 0f);
-		TransitionIMGOUT.LeanMoveX(-Screen.width * 2, TweenTime);
+		TransitionIMGOUT.LeanMoveX(-Screen.width * 1.5f, TweenTime);
 	}
 	public void PlayGame()
 	{
@@ -36,7 +36,7 @@ public class MenuManager : MonoBehaviour
 
 	IEnumerator TransitionToPlay()
 	{
-		TransitionIMGIN.LeanMoveX(Screen.width / 2, TweenTime);
+		TransitionIMGIN.LeanMoveX(Screen.width / 1.5f, TweenTime);
 
 		yield return new WaitForSeconds(delay);
 

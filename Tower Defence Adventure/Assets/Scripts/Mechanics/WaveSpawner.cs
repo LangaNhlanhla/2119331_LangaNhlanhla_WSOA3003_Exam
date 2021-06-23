@@ -27,12 +27,18 @@ public class WaveSpawner : MonoBehaviour
 
     [Header("Booleans")]
     public bool hasBeenCalled = false;
-    void Update()
+
+	private void Awake()
+	{
+        waveIndex = 0;
+        goblinsAlive = 0;
+	}
+	void Update()
     {
         if (goblinsAlive > 0)
             return;
         
-        if(countdown <= 15f && !hasBeenCalled)
+        if(countdown <= 10f && !hasBeenCalled)
 		{
             anim.gameObject.SetActive(true);
             hasBeenCalled = true;
@@ -67,14 +73,15 @@ public class WaveSpawner : MonoBehaviour
         for (int i = 0; i < wave.count; i++)
         {
             SpawnEnemy(wave.goblin);
+            wave.Extrahealth();
             yield return new WaitForSeconds(1f / wave.rate);
         }
 
         waveIndex++;
 
         if (waveIndex == waves.Length)
-        { 
-            Debug.Log("GGs");
+        {
+            GameManager.instance.GameWon();
             this.enabled = false;
         }
     }

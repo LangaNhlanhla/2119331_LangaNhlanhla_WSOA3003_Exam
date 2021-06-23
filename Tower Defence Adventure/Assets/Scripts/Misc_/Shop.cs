@@ -20,7 +20,7 @@ public class Shop : MonoBehaviour
 	public void SelectAmmo(int amountGiven)
 	{
 		Debug.Log("Ammo Puchased");
-		gameManager.SetAmount(amountGiven);
+		gameManager.SetAmount(baseAmmo, amountGiven);
 	}
 	public void SelectHealth()
 	{
@@ -28,10 +28,24 @@ public class Shop : MonoBehaviour
 		gameManager.SelectHealth(healthItem, healthItem.amount);
 	}
 
+	public void SelectDamage()
+	{
+		gameManager.SetHealth(healthItem, healthItem.amount);
+	}
+
 	public void UpgradeStation(TowerUpgrades upgrade)
 	{
 			gameManager.Purchase(baseWall);
 			upgrade.Upgrade(baseWall);
+	}
+
+	public void UpgradeSword(Sword mySword)
+	{
+		if (PlayerStats.Gold < Sword.cost)
+			return;
+
+		PlayerStats.Gold -= Sword.cost;
+		mySword.attDmg += Sword.amount;
 	}
 }
 

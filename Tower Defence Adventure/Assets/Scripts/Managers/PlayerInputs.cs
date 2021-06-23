@@ -169,6 +169,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Tap""
+                },
+                {
+                    ""name"": ""CombatItem"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""213b5ec4-db2f-4e12-ab0a-8fdc2937effc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap""
                 }
             ],
             ""bindings"": [
@@ -193,6 +201,17 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""action"": ""ShootRMB"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35aa9201-d562-4aa0-8c8f-22fe18544552"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CombatItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -211,6 +230,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_ShootLMB = m_Combat.FindAction("ShootLMB", throwIfNotFound: true);
         m_Combat_ShootRMB = m_Combat.FindAction("ShootRMB", throwIfNotFound: true);
+        m_Combat_CombatItem = m_Combat.FindAction("CombatItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -344,12 +364,14 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     private ICombatActions m_CombatActionsCallbackInterface;
     private readonly InputAction m_Combat_ShootLMB;
     private readonly InputAction m_Combat_ShootRMB;
+    private readonly InputAction m_Combat_CombatItem;
     public struct CombatActions
     {
         private @PlayerInputs m_Wrapper;
         public CombatActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @ShootLMB => m_Wrapper.m_Combat_ShootLMB;
         public InputAction @ShootRMB => m_Wrapper.m_Combat_ShootRMB;
+        public InputAction @CombatItem => m_Wrapper.m_Combat_CombatItem;
         public InputActionMap Get() { return m_Wrapper.m_Combat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -365,6 +387,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @ShootRMB.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnShootRMB;
                 @ShootRMB.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnShootRMB;
                 @ShootRMB.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnShootRMB;
+                @CombatItem.started -= m_Wrapper.m_CombatActionsCallbackInterface.OnCombatItem;
+                @CombatItem.performed -= m_Wrapper.m_CombatActionsCallbackInterface.OnCombatItem;
+                @CombatItem.canceled -= m_Wrapper.m_CombatActionsCallbackInterface.OnCombatItem;
             }
             m_Wrapper.m_CombatActionsCallbackInterface = instance;
             if (instance != null)
@@ -375,6 +400,9 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 @ShootRMB.started += instance.OnShootRMB;
                 @ShootRMB.performed += instance.OnShootRMB;
                 @ShootRMB.canceled += instance.OnShootRMB;
+                @CombatItem.started += instance.OnCombatItem;
+                @CombatItem.performed += instance.OnCombatItem;
+                @CombatItem.canceled += instance.OnCombatItem;
             }
         }
     }
@@ -393,5 +421,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     {
         void OnShootLMB(InputAction.CallbackContext context);
         void OnShootRMB(InputAction.CallbackContext context);
+        void OnCombatItem(InputAction.CallbackContext context);
     }
 }

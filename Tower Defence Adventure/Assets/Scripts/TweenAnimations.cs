@@ -8,7 +8,7 @@ public class TweenAnimations : MonoBehaviour
 { 
     public enum Name
 	{
-        None, WaveTimer
+        None, WaveTimer, GameOver
 	};
 
     [Header("Internal Source")]
@@ -23,7 +23,10 @@ public class TweenAnimations : MonoBehaviour
         if (nameEnum == Name.WaveTimer)
                 OpenTimer();
 
-	}
+        if(nameEnum == Name.GameOver)
+            transform.localScale = Vector3.zero;
+
+    }
 	void Start()
     {
         if(nameEnum == Name.None)

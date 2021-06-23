@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
 	[Header("Unity Handles")]
 	public GameObject fx;
-	//public GameObject shop;
+	public GameObject Win, Loser;
 	public Image healthBar;
 
 	[Header("Blueprint Items")]
@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
 	public bool isGameOver = false;
 	public bool shopOpen = false;
 	public bool isPaused = false;
+
 
 	#region Enable/Disable
 	private void OnEnable()
@@ -61,8 +62,11 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		isGameOver = false;
 
 		dmg = villageHealth / wallIndex;
+		Win.SetActive(false);
+		Loser.SetActive(false);
 	}
 
 	private void Update()
@@ -73,6 +77,7 @@ public class GameManager : MonoBehaviour
 		if (villageHealth <= 0)
 		{
 			isGameOver = true;
+			GameOver();
 		}
 
 		villageHealth = Mathf.Clamp(villageHealth, min, max);
@@ -84,6 +89,7 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("Walls: " + wallIndex);
 	}
+	#region Buttons
 	public void PauseGame()
 	{
 		anim.Open();
@@ -97,6 +103,31 @@ public class GameManager : MonoBehaviour
 		anim.Close();
 		isPaused = false;
 	}
+
+	public void RestartGame(string sceneName)
+	{
+		SceneManager.LoadScene(sceneName);
+	}
+	public void ExitGame()
+	{
+		Application.Quit();
+	}
+	
+	public void GameOver()
+	{
+		isGameOver = true;
+		Loser.SetActive(true);
+		Loser.GetComponent<TweenAnimations>().Open();
+	}
+
+	public void GameWon()
+	{
+		isGameOver = true;
+		Win.SetActive(true);
+		Win.GetComponent<TweenAnimations>().Open();
+#endregion
+	}
+	#region Shop
 	public void SelectHealth(GameBlueprint health, int amount)
 	{
 		if (PlayerStats.Gold < health.cost)
@@ -118,9 +149,23 @@ public class GameManager : MonoBehaviour
 		Debug.Log(PlayerStats.Gold);
 
 	}
-	public void SetAmount(int amount)
+	public void SetAmount(GameBlueprint ammo, int amount)
 	{
-		Debug.Log(amount);
+		if (PlayerStats.Gold < ammo.cost)
+			return;
+
+		PlayerStats.Gold -= ammo.cost;
+		playerStats.bullets += amount;
+
+	}
+
+	public void SetHealth(GameBlueprint health, int amount)
+	{
+		if (PlayerStats.Gold < health.cost)
+			return;
+
+		PlayerStats.Gold -= health.cost;
+		playerStats.DamageItemsAmount += amount;
 	}
 
 	public void OpenShop(GameObject shop)
@@ -134,7 +179,7 @@ public class GameManager : MonoBehaviour
 		shop.SetActive(false);
 		shopOpen = false;
 	}
-
+	#endregion
 	IEnumerator SetTimeZero()
 	{
 		yield return new WaitForSeconds(anim.tweenTime);

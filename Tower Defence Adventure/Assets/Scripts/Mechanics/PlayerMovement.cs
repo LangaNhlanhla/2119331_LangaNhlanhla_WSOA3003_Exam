@@ -33,11 +33,13 @@ public class PlayerMovement : MonoBehaviour
 
 		inputActions.Movement.Move.performed += ctx => horizontalMovement = ctx.ReadValue<Vector2>();
 		inputActions.Combat.ShootLMB.performed += _ => Melee();
+		inputActions.Combat.CombatItem.performed += _ => Damage();
 	}
 
 	void Start()
 	{
 		inputActions.Combat.ShootRMB.performed += _ => Shoot();
+		
 	}
 
 	#region Enable/Disable
@@ -89,6 +91,12 @@ public class PlayerMovement : MonoBehaviour
 		Debug.Log("Gun has: " + PlayerStats.instance.bullets + " Bullets");
 	}
 
+	void Damage()
+	{
+		PlayerStats.instance.DamageItemsAmount--;
+		bullet.GetComponent<GoblinAttackBuilding>().DamageOutput += 2;
+		
+	}
 	void Melee()
 	{
 		if (attTimer >= mySword.cooldown)
@@ -96,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
 			attTimer = 0;
 
 			//Animation
-			GameObject fx = Instantiate(SwordFX, SwordPoint.position, Quaternion.identity);
+			GameObject fx = Instantiate(SwordFX, SwordPoint.position, SwordPoint.rotation);
 			fx.transform.SetParent(holdBullets.transform);
 			Destroy(fx, 0.7f);
 

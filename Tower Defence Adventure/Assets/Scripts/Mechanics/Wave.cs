@@ -11,9 +11,19 @@ public class Wave
 
     [Header("Integers")]
     public int count;
+    public int addition;
+    public int worthAddition;
 
     [Header("Floats")]
     public float rate;
+    
+
+    public void Extrahealth()
+	{
+        GoblinEnemy obj = goblin.GetComponent<GoblinEnemy>();
+        obj.bullet.GetComponent<TowerBullet>().BuildingDamageOutput += addition;
+        obj.worth += worthAddition;
+	}
 }
 
 /*

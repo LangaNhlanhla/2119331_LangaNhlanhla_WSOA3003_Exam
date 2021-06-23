@@ -11,7 +11,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Unity Handles")]
     public Text GoldTxt;
-    public Text AmmoTxt, HealthItemsTxt, SwordTxt, DamageTxt;
+    public Text AmmoTxt, SwordTxt, DamageTxt;
 
     [Header("Integers")]
     public int baseGold = 200;
@@ -49,7 +49,6 @@ public class PlayerStats : MonoBehaviour
         Gold = (int)Mathf.Clamp(Gold, 0f, Mathf.Infinity);
 
         AmmoTxt.text = bullets.ToString();
-        HealthItemsTxt.text = healthItemsAmount.ToString();
         SwordTxt.text = Sword.ToString();
         DamageTxt.text = DamageItemsAmount.ToString();
 

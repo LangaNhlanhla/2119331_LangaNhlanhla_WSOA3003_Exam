@@ -251,11 +251,11 @@ MonoBehaviour:
   agent: {fileID: 3961507841372454945}
   healthBar: {fileID: 3961507841436508059}
   holder: {fileID: 3961507842352647143}
-  Range: 100
-  health: 100
+  Range: 50
+  health: 50
   damage: 10
   countDown: 3
-  worth: 50
+  worth: 70
   isDead: 0
   enemyTag: building
 --- !u!195 &3961507841372454945
