@@ -156,11 +156,11 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""ShootLMB"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""1d07750e-2704-4c3c-ab59-9133ee09fc12"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Tap""
                 },
                 {
                     ""name"": ""ShootRMB"",

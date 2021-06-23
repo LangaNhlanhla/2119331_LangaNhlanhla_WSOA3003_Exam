@@ -240,12 +240,12 @@ MonoBehaviour:
   spawnPoint: {fileID: 366844441115519734}
   Holder: {fileID: 0}
   points:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1608550388430568428, guid: 437bcb9bb34c3164388759820246a817, type: 3}
+  - {fileID: 4260610969176843869, guid: 09b7618a5182d20469d0ae172658e244, type: 3}
+  - {fileID: 8125130656500778249, guid: b874c6587e8b4324a8234ebcbf7729cb, type: 3}
+  - {fileID: 8939514066198579237, guid: e2d654ae628f5e34fa069af9c9a31b51, type: 3}
+  - {fileID: 3468990294525587810, guid: 88c416da45116d846bb797bd631c91b7, type: 3}
+  - {fileID: 443372800485639297, guid: d66dc53acc721ac4fb2f2eaa765ad973, type: 3}
   bullet: {fileID: 4096998066655316557, guid: 9b9617e8216be2240b8e32511931e92c, type: 3}
   fx: {fileID: 8705322147059266183, guid: c9f1d9ae3adf683489adfbb72ac1ed2f, type: 3}
   agent: {fileID: 3961507841372454945}

@@ -109,6 +109,15 @@ public class GameManager : MonoBehaviour
 		playerStats.healthItemsAmount += amount;
 	}
 
+	public void Purchase(GameBlueprint health)
+	{
+		if (PlayerStats.Gold < health.cost)
+			return;
+
+		PlayerStats.Gold -= health.cost;
+		Debug.Log(PlayerStats.Gold);
+
+	}
 	public void SetAmount(int amount)
 	{
 		Debug.Log(amount);

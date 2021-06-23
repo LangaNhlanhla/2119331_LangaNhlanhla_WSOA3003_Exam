@@ -27,6 +27,12 @@ public class Shop : MonoBehaviour
 		Debug.Log("Health Puchased");
 		gameManager.SelectHealth(healthItem, healthItem.amount);
 	}
+
+	public void UpgradeStation(TowerUpgrades upgrade)
+	{
+			gameManager.Purchase(baseWall);
+			upgrade.Upgrade(baseWall);
+	}
 }
 
 /*

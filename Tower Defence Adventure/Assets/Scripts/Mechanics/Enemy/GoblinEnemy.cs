@@ -102,9 +102,6 @@ public class GoblinEnemy : MonoBehaviour
 
         if (tar != null)
 		{
-           agent.SetDestination(tar);
-            agent.speed = speed;
-
 
             RaycastHit hit;
             transform.LookAt(tar);
@@ -118,6 +115,9 @@ public class GoblinEnemy : MonoBehaviour
                 }
             }
         }
+
+        agent.SetDestination(tar);
+        agent.speed = speed;
     }
     IEnumerator Spawn()
     {

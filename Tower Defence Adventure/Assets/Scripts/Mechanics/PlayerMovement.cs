@@ -8,23 +8,31 @@ public class PlayerMovement : MonoBehaviour
     [Header("External Sources")]
     PlayerInputs inputActions;
 	CharacterController controller;
+	public Sword mySword;
 
     [Header("Unity Handles")]
 	public Transform spawnPoint;
-	public GameObject bullet, sword, holdBullets;
+	public Transform SwordPoint;
+	public GameObject bullet, sword, holdBullets, SwordFX;
+	public LayerMask GoblinLayer;
 	Camera main;
 	Vector2 horizontalMovement;
 
 	[Header("Floats")]
 	public float speed = 10f;
+	float attTimer;
+
 
 	private void Awake()
 	{
         inputActions = new PlayerInputs();
 		controller = GetComponent<CharacterController>();
+		mySword = sword.GetComponent<Sword>();
+		SwordPoint = sword.GetComponent<Transform>();
 		main = Camera.main;
 
 		inputActions.Movement.Move.performed += ctx => horizontalMovement = ctx.ReadValue<Vector2>();
+		inputActions.Combat.ShootLMB.performed += _ => Melee();
 	}
 
 	void Start()
@@ -60,6 +68,10 @@ public class PlayerMovement : MonoBehaviour
 			Debug.DrawLine(ray.origin, point, Color.red);
 			transform.LookAt(point);
 		}
+
+		attTimer += Time.deltaTime;
+
+		
 	}
 
 	void Shoot()
@@ -75,6 +87,26 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		Debug.Log("Gun has: " + PlayerStats.instance.bullets + " Bullets");
+	}
+
+	void Melee()
+	{
+		if (attTimer >= mySword.cooldown)
+		{
+			attTimer = 0;
+
+			//Animation
+			GameObject fx = Instantiate(SwordFX, SwordPoint.position, Quaternion.identity);
+			fx.transform.SetParent(holdBullets.transform);
+			Destroy(fx, 0.7f);
+
+			Collider[] goblin = Physics.OverlapSphere(SwordPoint.position, mySword.attRange, GoblinLayer);
+			foreach  (Collider gob in goblin)
+			{
+				gob.GetComponent<GoblinEnemy>().goblinAttacked(mySword.attDmg);
+			}
+			
+		}
 	}
 }
 
