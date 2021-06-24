@@ -56,7 +56,7 @@ public class GoblinEnemy : MonoBehaviour
         if (target == null)
             return;
 
-        if(transform.position.y >= 5f)
+        if(transform.position.y >= 10f)
 		{
             GameObject eff = Instantiate(fx, transform.position, Quaternion.identity);
             Destroy(eff, 2f);

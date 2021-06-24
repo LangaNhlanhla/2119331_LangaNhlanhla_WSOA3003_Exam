@@ -52760,7 +52760,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: The top left of you screen indicates the current wave in red
+  m_Text: The top left of your screen indicates the current wave in red
 --- !u!222 &1397585956
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -68202,8 +68202,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You will also see the number of enemies left per wave, incase one decides
-    to bugger into the corners of this beautiful village
+  m_Text: Below it, you will also see the number of enemies left per wave, incase
+    one decides to bugger into the corners of this beautiful village
 --- !u!222 &1812335662
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -77242,7 +77242,7 @@ MonoBehaviour:
   Win: {fileID: 0}
   Loser: {fileID: 0}
   healthBar: {fileID: 2102303450}
-  GobTxt: {fileID: 0}
+  GobTxt: {fileID: 1726265768}
   baseItem:
     obj: {fileID: 0}
     cost: 0
