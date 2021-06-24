@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	public GameObject fx;
 	public GameObject Win, Loser;
 	public Image healthBar;
+	public Text GobTxt;
 
 	[Header("Blueprint Items")]
 	public GameBlueprint baseItem;
@@ -83,6 +84,8 @@ public class GameManager : MonoBehaviour
 		villageHealth = Mathf.Clamp(villageHealth, min, max);
 
 		healthBar.fillAmount = villageHealth / 100;
+
+		GobTxt.text = WaveSpawner.goblinsAlive.ToString();
 	}
 
 	private void FixedUpdate()

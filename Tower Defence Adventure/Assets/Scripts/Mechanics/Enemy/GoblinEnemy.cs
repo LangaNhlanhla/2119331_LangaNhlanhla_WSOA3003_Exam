@@ -56,6 +56,16 @@ public class GoblinEnemy : MonoBehaviour
         if (target == null)
             return;
 
+        if(transform.position.y >= 5f)
+		{
+            GameObject eff = Instantiate(fx, transform.position, Quaternion.identity);
+            Destroy(eff, 2f);
+
+            WaveSpawner.goblinsAlive--;
+
+            Destroy(gameObject);
+        }
+
     }
     void NewTarget()
     {

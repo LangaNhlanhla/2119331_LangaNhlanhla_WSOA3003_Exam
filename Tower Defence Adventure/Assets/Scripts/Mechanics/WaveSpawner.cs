@@ -58,7 +58,6 @@ public class WaveSpawner : MonoBehaviour
         
         countdownTxt.text = countdown.ToString("F1") + "s";
         WaveTxt.text = "Wave " + indexWave;
-
     }
 
     void SpawnEnemy(GameObject goblin)

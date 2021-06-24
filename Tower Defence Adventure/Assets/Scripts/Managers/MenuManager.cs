@@ -29,6 +29,10 @@ public class MenuManager : MonoBehaviour
 		StartCoroutine(TransitionToPlay());
 	}
 
+	public void PlayMeFirst(string name)
+	{
+		StartCoroutine(TransitionToPlayTut(name));
+	}
 	public void ExitGame()
 	{
 		Application.Quit();
@@ -41,6 +45,15 @@ public class MenuManager : MonoBehaviour
 		yield return new WaitForSeconds(delay);
 
 		SceneManager.LoadScene(sceneName);
+	}
+
+	IEnumerator TransitionToPlayTut(string name)
+	{
+		TransitionIMGIN.LeanMoveX(Screen.width / 1.5f, TweenTime);
+
+		yield return new WaitForSeconds(delay);
+
+		SceneManager.LoadScene(name);
 	}
 }
 
